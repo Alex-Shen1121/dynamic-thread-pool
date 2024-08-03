@@ -58,7 +58,7 @@ public class DynamicThreadPoolController {
     @RequestMapping(value = "query_thread_pool_config", method = RequestMethod.GET)
     public Response<ThreadPoolConfigEntity> queryThreadPoolConfig(@RequestParam String appName, @RequestParam String threadPoolName) {
         try {
-            String cacheKey = "THREAD_POOL_CONFIG_PARAMETER_LIST_KEY" + "_" + appName + "_" + threadPoolName;
+            String cacheKey = "THREAD_POOL_CONFIG_PARAMETER_LIST_KEY" + ":" + appName + ":" + threadPoolName;
             ThreadPoolConfigEntity threadPoolConfigEntity = redissonClient.<ThreadPoolConfigEntity>getBucket(cacheKey).get();
             return Response.<ThreadPoolConfigEntity>builder()
                     .code(Response.Code.SUCCESS.getCode())
@@ -90,7 +90,7 @@ public class DynamicThreadPoolController {
     public Response<Boolean> updateThreadPoolConfig(@RequestBody ThreadPoolConfigEntity request) {
         try {
             log.info("修改线程池配置开始 {} {} {}", request.getAppName(), request.getThreadPoolName(), JSON.toJSONString(request));
-            RTopic topic = redissonClient.getTopic("DYNAMIC_THREAD_POOL_REDIS_TOPIC" + "_" + request.getAppName());
+            RTopic topic = redissonClient.getTopic("DYNAMIC_THREAD_POOL_REDIS_TOPIC" + ":" + request.getAppName());
             topic.publish(request);
             log.info("修改线程池配置完成 {} {}", request.getAppName(), request.getThreadPoolName());
             return Response.<Boolean>builder()
