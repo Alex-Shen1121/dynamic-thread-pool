@@ -1,7 +1,7 @@
 package top.codingshen.middleware.dynamic.thread.pool.sdk.registry.redis;
 
 import org.redisson.api.RBucket;
-import org.redisson.api.RList;
+import org.redisson.api.RSet;
 import org.redisson.api.RedissonClient;
 import top.codingshen.middleware.dynamic.thread.pool.sdk.domain.model.entity.ThreadPoolConfigEntity;
 import top.codingshen.middleware.dynamic.thread.pool.sdk.domain.model.valobj.RegistryEnumVO;
@@ -32,8 +32,8 @@ public class RedisRegistry implements IRegistry {
      */
     @Override
     public void reportThreadPool(List<ThreadPoolConfigEntity> threadPoolConfigEntities) {
-        RList<ThreadPoolConfigEntity> list = redissonClient.getList(RegistryEnumVO.THREAD_POOL_CONFIG_LIST_KEY.getKey());
-        list.addAll(threadPoolConfigEntities);
+        RSet<Object> set = redissonClient.getSet(RegistryEnumVO.THREAD_POOL_CONFIG_LIST_KEY.getKey());
+        set.addAll(threadPoolConfigEntities);
     }
 
     /**
