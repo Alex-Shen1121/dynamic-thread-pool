@@ -2,7 +2,7 @@ package top.codingshen.middleware.dynamic.thread.pool.trigger;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RSet;
+import org.redisson.api.RList;
 import org.redisson.api.RTopic;
 import org.redisson.api.RedissonClient;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import top.codingshen.middleware.dynamic.thread.pool.sdk.domain.model.entity.Thr
 import top.codingshen.middleware.dynamic.thread.pool.types.Response;
 
 import javax.annotation.Resource;
-import java.util.Set;
+import java.util.List;
 
 /**
  * @ClassName DynamicThreadPoolController
@@ -33,17 +33,17 @@ public class DynamicThreadPoolController {
      * --url 'http://localhost:8089/api/v1/dynamic/thread/pool/query_thread_pool_list'
      */
     @RequestMapping(value = "query_thread_pool_list", method = RequestMethod.GET)
-    public Response<Set<ThreadPoolConfigEntity>> queryThreadPoolList() {
+    public Response<List<ThreadPoolConfigEntity>> queryThreadPoolList() {
         try {
-            RSet<ThreadPoolConfigEntity> cacheList = redissonClient.getSet("THREAD_POOL_CONFIG_LIST_KEY");
-            return Response.<Set<ThreadPoolConfigEntity>>builder()
+            RList<ThreadPoolConfigEntity> cacheList = redissonClient.getList("THREAD_POOL_CONFIG_LIST_KEY");
+            return Response.<List<ThreadPoolConfigEntity>>builder()
                     .code(Response.Code.SUCCESS.getCode())
                     .info(Response.Code.SUCCESS.getInfo())
                     .data(cacheList.readAll())
                     .build();
         } catch (Exception e) {
             log.error("查询线程池数据异常", e);
-            return Response.<Set<ThreadPoolConfigEntity>>builder()
+            return Response.<List<ThreadPoolConfigEntity>>builder()
                     .code(Response.Code.UN_ERROR.getCode())
                     .info(Response.Code.UN_ERROR.getInfo())
                     .build();
