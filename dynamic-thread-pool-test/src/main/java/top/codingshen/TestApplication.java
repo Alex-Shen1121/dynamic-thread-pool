@@ -12,10 +12,10 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @Configuration
-public class Application {
+public class TestApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(TestApplication.class, args);
     }
 
     @Bean

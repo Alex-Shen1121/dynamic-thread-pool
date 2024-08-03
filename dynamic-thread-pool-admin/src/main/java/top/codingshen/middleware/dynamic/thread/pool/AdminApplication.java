@@ -14,16 +14,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @ClassName Application
+ * @ClassName AdminApplication
  * @Description description
  * @Author alex_shen
  * @Date 2024/8/4 - 02:23
  */
 @SpringBootApplication
 @Configuration
-public class Application {
+public class AdminApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class);
+        SpringApplication.run(AdminApplication.class);
     }
 
     @Configuration
